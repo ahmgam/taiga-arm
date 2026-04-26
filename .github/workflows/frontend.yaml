@@ -54,7 +54,7 @@ jobs:
         id: check-tag
         if: steps.check-release.outputs.exists != 'true'
         run: |
-          if [ grep -q "${{ steps.meta.outputs.latest }}" <<< "${{ steps.meta.outputs.tags }}" ]; then
+          if [ grep -q "${{ env.DOCKERHUB_IMAGE_NAME }}:${{ steps.check-release.outputs.latest }}" <<< "${{ steps.meta.outputs.tags }}" ]; then
             echo "Tag already exists in metadata output, skipping build and push."
             echo "found=true" >> $GITHUB_ENV
           else
