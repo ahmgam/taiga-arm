@@ -4,6 +4,8 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   DOCKERHUB_IMAGE_NAME: ${{ vars.FRONTEND_IMAGE_NAME }}  # image name on Docker Hub
   GITHUB_REPO: ${{ vars.FRONTEND_REPO }}    # repo to watch for releases
+  BUILD_CONTEXT: ${{ vars.FRONTEND_BUILD_CONTEXT }}  # build context for Docker
+  DOCKERFILE_PATH: ${{ vars.FRONTEND_DOCKERFILE_PATH }}  # path to Dockerfile
 on:
   schedule:
     - cron: '0 * * * *'   # runs every hour
@@ -51,7 +53,8 @@ jobs:
         if: steps.check-release.outputs.exists != 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./docker
+          context: ${{ env.BUILD_CONTEXT }}
+          file: ${{ env.DOCKERFILE_PATH }}
           platforms: linux/arm64
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_IMAGE_NAME }}:${{ steps.check-release.outputs.latest }}
