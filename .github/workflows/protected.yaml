@@ -45,6 +45,9 @@ jobs:
         with:
             repository: ${{ env.GITHUB_REPO }}
             ref: ${{ steps.check-release.outputs.latest }}
+      - name : Fix dockerfile error
+        if: steps.check-release.outputs.exists != 'true'
+        run: sed -i 's/apt-get install -y \\/apt-get install -y gnupg \\/g' ${{ env.DOCKERFILE_PATH }}
       - name: Set up Docker Buildx
         if: steps.check-release.outputs.exists != 'true'
         uses: docker/setup-buildx-action@v3
