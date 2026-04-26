@@ -17,7 +17,7 @@ jobs:
         id: check-release
         run: |
           repo=${{ env.GITHUB_REPO }}
-          latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | \
+          latest_tag=$(curl -s "https://api.github.com/${{ env.GITHUB_REPO }}/releases/latest" | \
             jq -r '.tag_name')
           echo "latest=$latest_tag" >> $GITHUB_ENV
 
