@@ -19,7 +19,7 @@ jobs:
           repo=${{ env.GITHUB_REPO }}
           latest_tag=$(curl -s "https://api.github.com/repos/${{ env.GITHUB_REPO }}/tags" | \
             jq -r '.[0].name')
-          echo "latest=$latest_tag" >> $GITHUB_ENV
+          echo "latest=$latest_tag" >> "$GITHUB_OUTPUT"
 
       - name: Checkout
         uses: actions/checkout@v4
