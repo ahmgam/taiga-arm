@@ -30,6 +30,7 @@ jobs:
           repo=${{ env.GITHUB_REPO }}
           latest_tag=$(curl -s "https://api.github.com/repos/${{ env.GITHUB_REPO }}/tags" | \
             jq -r '.[0].name')
+          echo "latest=$latest_tag" >> "$GITHUB_OUTPUT"
           if [ grep -q "${{ env.DOCKERHUB_IMAGE_NAME }}:$latest_tag" <<< "${{ steps.meta.outputs.tags }}" ]; then
             echo "Tag already exists in metadata output, skipping build and push."
             echo "exists=true" >> "$GITHUB_OUTPUT"
